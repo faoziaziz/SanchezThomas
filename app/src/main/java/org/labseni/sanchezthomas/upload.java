@@ -1,80 +1,145 @@
 package org.labseni.sanchezthomas;
 
+import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.IOException;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-public class upload extends AppCompatActivity implements View.OnClickListener /*  implementing click listener */ {
-    //a constant to track the file chooser intent
-    private static final int PICK_IMAGE_REQUEST = 234;
+public class upload extends AppCompatActivity implements View.OnClickListener {
 
-    //Buttons
-    private Button buttonChoose;
-    private Button buttonUpload;
+    //this is the pic pdf code used in file chooser
+    final static int PICK_PDF_CODE = 2342;
 
-    //ImageView
-    private ImageView imageView;
+    //these are the views
+    TextView textViewStatus;
+    EditText editTextFilename;
+    ProgressBar progressBar;
 
-    //a Uri object to store file path
-    private Uri filePath;
+    //the firebase objects for storage and database
+    StorageReference mStorageReference;
+    DatabaseReference mDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_upload);
 
-        //getting views from layout
-        buttonChoose = (Button) findViewById(R.id.buttonChoose);
-        buttonUpload = (Button) findViewById(R.id.buttonUpload);
 
-        imageView = (ImageView) findViewById(R.id.imageView);
+        //getting firebase objects
+        mStorageReference = FirebaseStorage.getInstance().getReference();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS);
 
-        //attaching listener
-        buttonChoose.setOnClickListener(this);
-        buttonUpload.setOnClickListener(this);
+        //getting the views
+        textViewStatus = (TextView) findViewById(R.id.textViewStatus);
+        editTextFilename = (EditText) findViewById(R.id.editTextFileName);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+        //attaching listeners to views
+        findViewById(R.id.buttonUploadFile).setOnClickListener(this);
+        findViewById(R.id.textViewUploads).setOnClickListener(this);
     }
 
-    //method to show file chooser
-    private void showFileChooser() {
+    //this function will get the pdf from the storage
+    private void getPDF() {
+        //for greater than lolipop versions we need the permissions asked on runtime
+        //so if the permission is not available user will go to the screen to allow storage permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:" + getPackageName()));
+            startActivity(intent);
+            return;
+        }
+
+        //creating an intent for file chooser
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PDF_CODE);
     }
 
-    //handling the image chooser activity result
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
-
-            } catch (IOException e) {
-                e.printStackTrace();
+        //when the user choses the file
+        if (requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            //if a file is selected
+            if (data.getData() != null) {
+                //uploading the file
+                uploadFile(data.getData());
+            }else{
+                Toast.makeText(this, "No file chosen", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+
+    //this method is uploading the file
+    //the code is same as the previous tutorial
+    //so we are not explaining it
+    private void uploadFile(Uri data) {
+        progressBar.setVisibility(View.VISIBLE);
+        StorageReference sRef = mStorageReference.child(Constants.STORAGE_PATH_UPLOADS + System.currentTimeMillis() + ".pdf");
+        sRef.putFile(data)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @SuppressWarnings("VisibleForTests")
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressBar.setVisibility(View.GONE);
+                        textViewStatus.setText("Upload berhasil");
+
+                        uplod upload = new uplod(editTextFilename.getText().toString(), taskSnapshot.getDownloadUrl().toString());
+                        mDatabaseReference.child(mDatabaseReference.push().getKey()).setValue(upload);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @SuppressWarnings("VisibleForTests")
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        textViewStatus.setText((int) progress + "% Uploading...");
+                    }
+                });
+
+    }
+
     @Override
     public void onClick(View view) {
-        //if the clicked button is choose
-        if (view == buttonChoose) {
-            showFileChooser();
-        }
-        //if the clicked button is upload
-        else if (view == buttonUpload) {
-
+        switch (view.getId()) {
+            case R.id.buttonUploadFile:
+                getPDF();
+                break;
+            case R.id.textViewUploads:
+                startActivity(new Intent(this, ViewUploadsActivity.class));
+                break;
         }
     }
 }
