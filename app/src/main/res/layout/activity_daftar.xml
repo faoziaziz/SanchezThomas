@@ -6,6 +6,33 @@
     android:layout_height="match_parent"
     tools:context="org.labseni.sanchezthomas.daftar">
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+
+        android:layout_height="0dp"
+        android:background="@drawable/book"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginBottom="38dp"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/schedule"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
+
     <Button
         android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
@@ -32,7 +59,7 @@
         android:id="@+id/editTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="43dp"
+        android:layout_marginBottom="41dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
@@ -45,7 +72,24 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="117dp"
         android:text="Sudah punya akun?"
+        android:textColor="#000000"
+        android:textSize="28px"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="58dp"
+        android:text="Schedule Pro"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="50px"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

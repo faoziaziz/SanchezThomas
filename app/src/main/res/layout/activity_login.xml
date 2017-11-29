@@ -6,17 +6,45 @@
     android:layout_height="match_parent"
     tools:context="org.labseni.sanchezthomas.login">
 
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+
+        android:layout_height="0dp"
+        android:background="@drawable/book"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="41dp"
+        android:src="@drawable/schedule"
+        app:layout_constraintBottom_toTopOf="@+id/editTextEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="42dp"
+        android:layout_marginBottom="41dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -28,25 +56,46 @@
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/buttonSignin"
-        app:layout_constraintEnd_toEndOf="@+id/editTextEmail" />
+        app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <TextView
         android:id="@+id/textViewSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="93dp"
-        android:text="Belum punya akun."
+        android:layout_marginBottom="92dp"
+        android:text="Belum punya akun?"
+        android:textColor="#000000"
+        android:textSize="42px"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignin" />
 
     <Button
         android:id="@+id/buttonSignin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="33dp"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="44dp"
         android:text="Masuk"
         app:layout_constraintBottom_toTopOf="@+id/textViewSignup"
-        app:layout_constraintStart_toStartOf="@+id/textViewSignup" />
+        app:layout_constraintStart_toStartOf="@+id/textViewSignup"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="58dp"
+        android:text="Schedule Pro"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="50px"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

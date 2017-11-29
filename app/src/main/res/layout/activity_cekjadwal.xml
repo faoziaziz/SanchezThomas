@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.labseni.sanchezthomas.cekjadwal">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bikin Baru"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="245dp" />
+
+    <EditText
+        android:id="@+id/editAgenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Agenda"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="414dp" />
+
+    <EditText
+        android:id="@+id/editTanggal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Tanggal"
+        android:inputType="date"
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="302dp" />
+
+    <EditText
+        android:id="@+id/editJam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Jam"
+        android:inputType="time"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="358dp" />
+
+    <Button
+        android:id="@+id/bikin_jadwal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="saveJadwal"
+        android:text="Bikin"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="460dp" />
+</android.support.constraint.ConstraintLayout>
