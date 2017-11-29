@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/sdfa" android:title="Setting" android:icon="@drawable/ic_build_black_24dp"/>
+    <item android:id="@+id/nav_cek" android:title="Cek Jadwal" android:icon="@drawable/ic_book_black_24dp"/>
+    <item android:id="@+id/Search" android:title="Search" android:icon="@drawable/ic_search_black_24dp"/>
+    <item android:id="@+id/nav_logout" android:title="Logout" android:icon="@drawable/ic_format_indent_decrease_black_24dp"/>
+</menu>

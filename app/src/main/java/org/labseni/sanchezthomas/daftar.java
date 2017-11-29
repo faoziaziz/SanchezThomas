@@ -37,7 +37,8 @@ public class daftar extends AppCompatActivity implements View.OnClickListener{
         {
             //profile activity
             finish();
-            startActivity(new Intent(getApplicationContext(), profile.class));
+            //startActivity(new Intent(getApplicationContext(), profile.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
         }
         progressDialog= new ProgressDialog(this);
@@ -80,7 +81,8 @@ public class daftar extends AppCompatActivity implements View.OnClickListener{
                         {
 
                             finish();
-                            startActivity(new Intent(getApplicationContext(), profile.class));
+                            //startActivity(new Intent(getApplicationContext(), profile.class));
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                         }
                         else

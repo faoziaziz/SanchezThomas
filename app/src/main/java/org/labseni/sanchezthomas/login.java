@@ -40,7 +40,9 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         {
             //profile activity
             finish();
-            startActivity(new Intent(getApplicationContext(), profile.class));
+            //startActivity(new Intent(getApplicationContext(), profile.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
 
         }
 
@@ -86,7 +88,8 @@ public class login extends AppCompatActivity implements View.OnClickListener{
                 if(task.isSuccessful()){
                     //start the profile activity
                     finish();
-                    startActivity(new Intent(getApplicationContext(), profile.class));
+                    //startActivity(new Intent(getApplicationContext(), profile.class));
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
             }
 
